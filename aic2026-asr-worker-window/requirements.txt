@@ -1,0 +1,17 @@
+pyyaml
+tqdm
+numpy<2                # ghim <2 để khớp ABI với torch — numpy 2.x gây cảnh báo/lỗi ngầm
+torch                   # KHÔNG ghim >=2.5: Mac Intel (x86_64) chỉ có torch tối đa 2.2.2 trên
+                        # PyPI (Apple đã ngừng build torch mới cho kiến trúc này) — ép >=2.5 sẽ
+                        # làm pip báo "No matching distribution" trên máy đó
+torchaudio              # luôn để pip tự chọn bản khớp với torch (torch/torchaudio release theo cặp)
+transformers>=4.40,<4.50   # QUAN TRỌNG: bản >=4.50-ish bắt đầu ép cứng torch>=2.4/2.5, khiến
+                            # transformers ÂM THẦM tắt torch trên máy torch cũ hơn (vd. Mac Intel
+                            # kẹt ở 2.2.2), gây lỗi khó hiểu "NameError: name 'torch' is not
+                            # defined" khi thật sự chạy ASR. Ghim dưới 4.50 để tương thích cả
+                            # Mac Intel lẫn Apple Silicon/Linux.
+flask   # chỉ cần nếu dùng Web UI kéo-thả (run_web.sh) — không cần cho asr_parallel.sh
+
+# Cần lệnh 'ffmpeg' trên máy (không phải gói pip) để tách audio từ video:
+#   brew install ffmpeg      (macOS)
+#   apt install -y ffmpeg    (Linux)

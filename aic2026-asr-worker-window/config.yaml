@@ -1,0 +1,20 @@
+# Cấu hình cho package tách riêng aic2026-asr-worker — CHỈ phần ASR, giữ đúng giá trị mặc định
+# với aic2026-project/configs/pipeline_config.yaml để transcript trích ra tương thích 100% khi
+# gộp lại vào repo chính. Đừng đổi trừ khi cả team thống nhất đổi chung trong
+# configs/pipeline_config.yaml của repo chính.
+
+paths:
+  raw_videos: "data/raw"
+  transcripts: "data/processed/transcripts"
+
+asr:
+  engine: "transformers"    # đổi "whisper_cpp" nếu máy bạn đã cài sẵn whisper.cpp CLI
+  primary_model: "nguyenvulebinh/wav2vec2-base-vietnamese-250h"
+  fallback_model: "openai/whisper-small"   # tự dùng nếu primary_model không tải được
+  chunk_length_s: 20
+  whisper_cpp:
+    binary: null              # null = tự tìm bằng shutil.which("whisper-cli")
+    model_path: "models/ggml-small.bin"
+    language: "vi"
+    max_context: 0
+    use_gpu: false
